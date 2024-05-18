@@ -11,6 +11,8 @@ setup(
     version = "0.0.1",
     author = "Sharooq Farzeen A K",
     author_email = "sharooqfarzeen@gmail.com",
+    description = "First ML Project",
+    url = "https://github.com/sharooqfarzeen/mlproject",
     packages = find_packages(),
     install_requires = import_req('requirements.txt'),
 )
