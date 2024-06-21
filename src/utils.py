@@ -9,6 +9,7 @@ from sklearn.metrics import r2_score
 from sklearn.model_selection import GridSearchCV
 
 from src.exception import CustomException
+from src.logger import logging
 
 def save_object(file_path, obj):
     try:
@@ -25,7 +26,7 @@ def save_object(file_path, obj):
 def evaluate_models(X_train, y_train, X_test, y_test, models, params):
     try:
         report = {}
-
+        logging.info("Model evaluation initiated")
         #take each model name
         for model_name in models:
           model = models[model_name]
@@ -43,6 +44,7 @@ def evaluate_models(X_train, y_train, X_test, y_test, models, params):
           test_model_score = r2_score(y_test, y_test_pred)
 
           report[model_name] = test_model_score
+        logging.info("Model evaluation complete")
 
         return report
      

@@ -49,10 +49,14 @@ class ModelTrainer:
                 "AdaBoost Classifier": AdaBoostRegressor()
             }
 
-
-            # Loading the param_grids from the YAML file
-            with open('src\components\hyperparameters.yaml', 'r') as file:
+            # Construct the path to the hyperparameters.yaml file
+            config_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../configs/hyperparameters.yaml'))
+    
+            with open(config_path, 'r') as file:
+                logging.info("Loading hyperparameter file")
                 param_grids = yaml.safe_load(file)
+                logging.info(f'Hyperparameters {param_grids}')
+            logging.info("Hyperparameters loaded")
 
             model_report: dict = evaluate_models(X_train, y_train, X_test, y_test, models, param_grids)
 
