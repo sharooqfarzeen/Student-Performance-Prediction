@@ -22,25 +22,27 @@ def save_object(file_path, obj):
     except Exception as e:
         raise CustomException(e, sys)
     
-def evaluate_models(X_train, y_train, X_test, y_test, models):
+def evaluate_models(X_train, y_train, X_test, y_test, models, params):
     try:
         report = {}
 
         #take each model name
-        for key in models:
-          model = models[key]
+        for model_name in models:
+          model = models[model_name]
+          
+          # Hyperparameter Tuning
+          best_model = GridSearchCV(model, params[model_name], cv=5, n_jobs=-1, scoring='r2')
+          best_model.fit(X_train, y_train)
 
-          model.fit(X_train, y_train)
+          y_train_pred = best_model.predict(X_train)
 
-          y_train_pred = model.predict(X_train)
-
-          y_test_pred = model.predict(X_test)
+          y_test_pred = best_model.predict(X_test)
 
           train_model_score = r2_score(y_train, y_train_pred) 
 
           test_model_score = r2_score(y_test, y_test_pred)
 
-          report[key] = test_model_score
+          report[model_name] = test_model_score
 
         return report
      

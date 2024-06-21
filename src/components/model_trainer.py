@@ -1,6 +1,7 @@
 import os
 import sys
 from dataclasses import dataclass
+import yaml
 
 from sklearn.linear_model import LinearRegression
 from sklearn.neighbors import KNeighborsRegressor
@@ -48,7 +49,12 @@ class ModelTrainer:
                 "AdaBoost Classifier": AdaBoostRegressor()
             }
 
-            model_report: dict = evaluate_models(X_train, y_train, X_test, y_test, models)
+
+            # Loading the param_grids from the YAML file
+            with open('src\components\hyperparameters.yaml', 'r') as file:
+                param_grids = yaml.safe_load(file)
+
+            model_report: dict = evaluate_models(X_train, y_train, X_test, y_test, models, param_grids)
 
             # Finding the model with the highest R² score
             best_model_name = max(model_report, key = model_report.get)
