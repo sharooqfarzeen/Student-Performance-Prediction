@@ -67,6 +67,7 @@ class ModelTrainer:
             best_score = model_report[best_model_name]
             # actual model function with highest score
             best_model = models[best_model_name]
+            best_model.fit(X_train, y_train)
 
             if best_score < 0.6:
                 raise CustomException("No good models found")
